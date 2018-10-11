@@ -16,6 +16,7 @@
 }
 
 .list > h1 {
+  color: #555;
   font-size: 24px;
   padding: 0;
   margin: 12px 24px;
@@ -28,16 +29,37 @@ ul {
 }
 
 li {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+.card-name {
   background: #fff;
+  flex-grow: 1;
 
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
 
-  margin-bottom: 8px;
   padding: 12px 24px;
 }
 
-li:last-child {
-  margin-bottom: 0;
+.in-progress > .card-name {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0 10px 10px 0;
+
+  padding-left: 12px;
+}
+
+.indicator {
+  float: left;
+  width: 12px;
+  height: auto;
+  background: #f66;
+  border-radius: 10px 0 0 10px;
 }

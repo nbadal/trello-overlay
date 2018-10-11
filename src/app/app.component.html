@@ -1,8 +1,12 @@
-<div class="list">
+<div class="list" *ngIf="cards">
   <h1>To-Do</h1>
   <ul>
-    <li *ngFor="let card of cards">
-      {{ card.name }}
+    <li *ngFor="let card of cards['in-progress']" class="in-progress">
+      <div class="indicator"></div>
+      <div class="card-name">{{ card.name }}</div>
+    </li>
+    <li *ngFor="let card of cards['todo']" class="todo">
+      <div class="card-name">{{ card.name }}</div>
     </li>
   </ul>
 </div>
