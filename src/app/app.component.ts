@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {TrelloService} from './trello.service';
 
 @Component({
@@ -6,14 +6,20 @@ import {TrelloService} from './trello.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  private cards: any;
+export class AppComponent implements OnInit {
+  public cards: { name: string };
 
-  constructor(private trelloService: TrelloService) {
-    this.trelloService.getTodo()
-      .subscribe((todo) => {
-        this.cards = todo;
-      });
+  constructor(private ngZone: NgZone, private trelloService: TrelloService) {
   }
 
+  ngOnInit() {
+    this.trelloService.getTodo().subscribe((todo) => {
+      // Change card data in the angular zone.
+      this.ngZone.run(() => {
+        this.cards = todo;
+      });
+    }, (err) => {
+      console.log({error: err});
+    });
+  }
 }

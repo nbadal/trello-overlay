@@ -1,15 +1,34 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {environment} from '../environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrelloService {
-  constructor(private http: HttpClient) {
+  constructor() {
   }
 
   getTodo() {
-    return this.http.get(environment.apiUrl + '/trello');
+    return Observable.create(observer => {
+      const eventSource = new EventSource(environment.apiUrl + '/trello');
+      eventSource.onmessage = x => {
+        if (observer.closed) {
+          return;
+        }
+        try {
+          observer.next(JSON.parse(x.data));
+        } catch (e) {
+          observer.error(e);
+        }
+      };
+      eventSource.onerror = (x) => {
+        observer.error(x);
+      };
+
+      return () => {
+        eventSource.close();
+      };
+    });
   }
 }
