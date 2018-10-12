@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://api.nbadal.com'
+  apiUrl: 'https://api.nbadal.com'
 };
