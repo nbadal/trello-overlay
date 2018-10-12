@@ -1,0 +1,19 @@
+language: node_js
+node_js: node
+
+before_script:
+- node --version
+
+script:
+- npm run lint
+- npm run buildProd
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: ./dist/trello-overlay
+  committer-from-gh: true
+  on:
+    branch: master
