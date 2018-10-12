@@ -1,4 +1,4 @@
-<div id="overlay" *ngIf="lists">
+<div id="overlay" *ngIf="lists" [ngStyle]="{'text-align': overlayAlign}">
   <h1 *ngIf="title" id="title">{{title}}</h1>
   <ul *ngFor="let list of lists" class="list">
     <li *ngFor="let card of list.cards" class="card {{list.name}}">

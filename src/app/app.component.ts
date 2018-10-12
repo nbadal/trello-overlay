@@ -7,10 +7,12 @@ import {TrelloService} from './trello.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  public overlayAlign: 'left' | 'center' | 'right';
   public title: string;
   public lists: [{'name': string, 'cards': [{name: string}]}];
 
   constructor(private ngZone: NgZone, private trelloService: TrelloService) {
+    this.overlayAlign = 'left';
     this.title = 'To-Do';
   }
 
