@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   constructor(private ngZone: NgZone, private trelloService: TrelloService) {
     this.overlayAlign = 'left';
-    this.title = 'To-Do';
+    this.title = 'To-Do:';
   }
 
   ngOnInit() {
