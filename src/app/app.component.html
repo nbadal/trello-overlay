@@ -1,12 +1,8 @@
-<div class="list" *ngIf="cards">
-  <h1>To-Do</h1>
-  <ul>
-    <li *ngFor="let card of cards['in-progress']" class="in-progress">
-      <div class="indicator"></div>
-      <div class="card-name">{{ card.name }}</div>
-    </li>
-    <li *ngFor="let card of cards['todo']" class="todo">
-      <div class="card-name">{{ card.name }}</div>
+<div id="overlay" *ngIf="lists">
+  <h1 *ngIf="title" id="title">{{title}}</h1>
+  <ul *ngFor="let list of lists" class="list">
+    <li *ngFor="let card of list.cards" class="card {{list.name}}">
+      {{ card.name }}
     </li>
   </ul>
 </div>

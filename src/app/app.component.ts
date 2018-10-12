@@ -7,19 +7,18 @@ import {TrelloService} from './trello.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public cards: {
-    'in-progress': [{name: string}],
-    'todo': [{name: string}],
-  };
+  public title: string;
+  public lists: [{'name': string, 'cards': [{name: string}]}];
 
   constructor(private ngZone: NgZone, private trelloService: TrelloService) {
+    this.title = 'To-Do';
   }
 
   ngOnInit() {
-    this.trelloService.getTodo().subscribe((cards) => {
+    this.trelloService.getTodo().subscribe((lists) => {
       // Change card data in the angular zone.
       this.ngZone.run(() => {
-        this.cards = cards;
+        this.lists = lists;
       });
     }, (err) => {
       console.log({error: err});

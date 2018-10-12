@@ -1,10 +1,11 @@
 * {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
+  font-size: 12px;
   color: #333;
 }
 
-.list {
+#overlay {
   background: #ccc;
   display: inline-block;
 
@@ -15,51 +16,38 @@
   padding: 8px;
 }
 
-.list > h1 {
+#title {
   color: #555;
-  font-size: 24px;
+  font-size: 16px;
   padding: 0;
   margin: 12px 24px;
 }
 
-ul {
+.list {
   list-style: none;
   padding: 0;
-  margin: 0
+  margin: 0 0 6px 0;
 }
 
-li {
-  display: flex;
-  margin-bottom: 8px;
-}
-
-li:last-child {
+.list:last-child {
   margin-bottom: 0;
 }
 
-.card-name {
+.card {
   background: #fff;
-  flex-grow: 1;
 
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 
-  padding: 12px 24px;
+  margin: 0 0 8px 0;
+  padding: 6px 18px;
 }
 
-.in-progress > .card-name {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0 10px 10px 0;
-
-  padding-left: 12px;
+.card:last-child {
+  margin-bottom: 0;
 }
 
-.indicator {
-  float: left;
-  width: 12px;
-  height: auto;
-  background: #f66;
-  border-radius: 10px 0 0 10px;
+.card.in-progress {
+  background: #fff5d9;
 }
