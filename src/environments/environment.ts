@@ -4,8 +4,16 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000'
-  // apiUrl: 'http://api.nbadal.com'
+  apiUrl: 'http://localhost:3000',
+  // apiUrl: 'http://api.nbadal.com',
+  firebase: {
+    apiKey: 'AIzaSyDk5puMjxmimJwhOdK5UrpTYpGa6KJSYqI',
+    authDomain: 'trello-twitch-overlay.firebaseapp.com',
+    databaseURL: 'https://trello-twitch-overlay.firebaseio.com',
+    projectId: 'trello-twitch-overlay',
+    storageBucket: 'trello-twitch-overlay.appspot.com',
+    messagingSenderId: '953718608673'
+  }
 };
 
 /*
