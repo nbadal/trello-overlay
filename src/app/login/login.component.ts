@@ -15,6 +15,6 @@ export class LoginComponent implements OnInit {
   }
 
   twitchLoginClicked() {
-    window.open(`${environment.apiUrl}/twitch/redirect`, 'firebaseAuth', 'height=800,width=600');
+    location.href = `${environment.apiUrl}/twitch/redirect`;
   }
 }
