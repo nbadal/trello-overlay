@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {User} from 'firebase';
 
 @Component({
   selector: 'app-main',
@@ -8,9 +9,15 @@ import {AngularFireAuth} from '@angular/fire/auth';
 })
 export class MainComponent implements OnInit {
 
-  constructor(public afAuth: AngularFireAuth) { }
+  public user: User;
+
+  constructor(private afAuth: AngularFireAuth) {
+  }
 
   ngOnInit() {
+    this.afAuth.authState.subscribe((user) => {
+      this.user = user;
+    });
   }
 
 }

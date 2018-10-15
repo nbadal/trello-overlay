@@ -2,9 +2,11 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {OverlayComponent} from './overlay/overlay.component';
 import {MainComponent} from './main/main.component';
+import {AuthComponent} from './auth/auth.component';
 
 const routes: Routes = [
   {path: 'overlay', component: OverlayComponent},
+  {path: 'auth/:token', component: AuthComponent},
   {path: '', component: MainComponent},
 ];
 
