@@ -33,11 +33,10 @@ export class ConfigComponent implements OnInit {
   }
 
   private observeTrelloAuth(userId: string) {
-    return this.afStore.collection('users').doc(userId).get()
-      .pipe(
-        map((value) => value.data()),
-        map((data) => data !== undefined && data.trelloAuth !== undefined),
-      );
+    return this.afStore.doc(`users/${userId}`).get().pipe(
+      map((value) => value.data()),
+      map((data) => data !== undefined && data.trelloAuth !== undefined),
+    );
   }
 
   private addOverlay(userId: string) {
@@ -77,7 +76,7 @@ export class ConfigComponent implements OnInit {
   }
 
   deleteOverlayClicked(id: string) {
-    this.afStore.collection('overlays').doc(id).delete();
+    this.afStore.doc(`overlays/${id}`).delete().then();
   }
 
   addOverlayClicked() {
