@@ -1,7 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {User} from 'firebase';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-main',
@@ -10,20 +9,21 @@ import {Subscription} from 'rxjs';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  public user: User;
+  public loggedIn: boolean;
   private authSub: Subscription;
 
-  constructor(private afAuth: AngularFireAuth) {
+  constructor(private auth: AuthService, private zone: NgZone) {
   }
 
   ngOnInit() {
-    this.authSub = this.afAuth.authState.subscribe((user) => {
-      this.user = user;
+    this.authSub = this.auth.observeLoggedIn().subscribe((loggedIn) => {
+      this.zone.run(() => {
+        this.loggedIn = loggedIn;
+      });
     });
   }
 
   ngOnDestroy() {
     this.authSub.unsubscribe();
   }
-
 }

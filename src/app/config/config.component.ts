@@ -1,8 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {first, flatMap, map} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
+import {AuthService} from '../auth.service';
+import {OverlayService} from '../overlay.service';
 
 @Component({
   selector: 'app-config',
@@ -14,51 +12,19 @@ export class ConfigComponent implements OnInit {
   public trelloUser: boolean;
   public overlays: { id: string, data: any }[];
 
-  constructor(private afAuth: AngularFireAuth, private afStore: AngularFirestore,
+  constructor(private auth: AuthService, private overlayService: OverlayService,
               private zone: NgZone) {
   }
 
-  private observeUserId() {
-    return this.afAuth.user.pipe(map((user) => user.uid));
-  }
-
-  private observeOverlays(userId: string) {
-    return this.afStore.collection('overlays', (ref) => {
-      return ref.where('user', '==', userId);
-    }).snapshotChanges().pipe(
-      map((changes) => changes.map((change) => {
-        return {id: change.payload.doc.id, data: change.payload.doc.data() as any};
-      }))
-    );
-  }
-
-  private observeTrelloAuth(userId: string) {
-    return this.afStore.doc(`users/${userId}`).get().pipe(
-      map((value) => value.data()),
-      map((data) => data !== undefined && data.trelloAuth !== undefined),
-    );
-  }
-
-  private addOverlay(userId: string) {
-    return this.afStore.collection('overlays').add({
-      user: userId,
-      title: 'New Overlay',
-    });
-  }
-
   ngOnInit() {
-    // Get user's overlays:
-    this.observeUserId().pipe(
-      flatMap((userId) => this.observeOverlays(userId)),
-    ).subscribe((overlays) => {
+    // Get loggedIn's overlays:
+    this.overlayService.observeOverlays().subscribe((overlays) => {
       this.zone.run(() => {
         this.overlays = overlays;
       });
     });
 
-    this.observeUserId().pipe(
-      flatMap((userId) => this.observeTrelloAuth(userId)),
-    ).subscribe((hasAuth) => {
+    this.auth.observeTrelloLinked().subscribe((hasAuth) => {
       this.zone.run(() => {
         this.trelloUser = hasAuth;
       });
@@ -66,22 +32,18 @@ export class ConfigComponent implements OnInit {
   }
 
   linkTrelloClicked() {
-    this.afAuth.idToken.pipe(first()).subscribe((idToken) => {
-      location.href = `${environment.apiUrl}/trello/redirect?user_token=${idToken}`;
-    });
+    this.auth.getTrelloRedirect().subscribe((url) => location.href = url);
   }
 
   signOutClicked() {
-    this.afAuth.auth.signOut();
+    this.auth.signOut().subscribe();
   }
 
   deleteOverlayClicked(id: string) {
-    this.afStore.doc(`overlays/${id}`).delete().then();
+    this.overlayService.deleteOverlay(id).subscribe();
   }
 
   addOverlayClicked() {
-    this.observeUserId().pipe(first()).subscribe((userId) => {
-      this.addOverlay(userId);
-    });
+    this.overlayService.addOverlay().subscribe();
   }
 }

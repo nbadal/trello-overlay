@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from '../../environments/environment';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,13 +8,13 @@ import {environment} from '../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() {
+  constructor(private auth: AuthService) {
   }
 
   ngOnInit() {
   }
 
   twitchLoginClicked() {
-    location.href = `${environment.apiUrl}/twitch/redirect`;
+    this.auth.getTwitchRedirect().subscribe((url) => location.href = url);
   }
 }

@@ -1,4 +1,4 @@
-<app-config *ngIf="user; else showLogin"></app-config>
+<app-config *ngIf="loggedIn; else showLogin"></app-config>
 <ng-template #showLogin>
   <app-login></app-login>
 </ng-template>
