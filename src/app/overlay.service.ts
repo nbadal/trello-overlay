@@ -14,7 +14,7 @@ export class OverlayService {
   observeOverlays() {
     return this.auth.observeUserId().pipe(
       map((userId) => this.afStore.collection('overlays', (ref) => {
-        return ref.where('loggedIn', '==', userId);
+        return ref.where('user', '==', userId);
       })),
       flatMap((overlays) => overlays.snapshotChanges()),
       map((overlaysChange) => overlaysChange.map((change) => {
