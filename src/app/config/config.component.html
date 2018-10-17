@@ -1,5 +1,12 @@
 <p>Signed In. (Config Page)</p>
 
+<div *ngIf="trelloUser; else noTrello">
+  <span>trelloUser</span><button>Unlink Trello</button>
+</div>
+<ng-template #noTrello>
+  <button (click)="linkTrelloClicked()">Link Trello</button>
+</ng-template>
+
 <ul *ngIf="overlays && overlays.length > 0; else noOverlays">
   <li *ngFor="let overlay of overlays">
     {{overlay.data.title}} ({{overlay.id}})

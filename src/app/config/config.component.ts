@@ -2,6 +2,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {first, flatMap, map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-config',
@@ -10,6 +11,7 @@ import {first, flatMap, map} from 'rxjs/operators';
 })
 export class ConfigComponent implements OnInit {
 
+  public trelloUser: boolean;
   public overlays: { id: string, data: any }[];
 
   constructor(private afAuth: AngularFireAuth, private afStore: AngularFirestore,
@@ -30,6 +32,14 @@ export class ConfigComponent implements OnInit {
     );
   }
 
+  private observeTrelloAuth(userId: string) {
+    return this.afStore.collection('users').doc(userId).get()
+      .pipe(
+        map((value) => value.data()),
+        map((data) => data !== undefined && data.trelloAuth !== undefined),
+      );
+  }
+
   private addOverlay(userId: string) {
     return this.afStore.collection('overlays').add({
       user: userId,
@@ -45,6 +55,20 @@ export class ConfigComponent implements OnInit {
       this.zone.run(() => {
         this.overlays = overlays;
       });
+    });
+
+    this.observeUserId().pipe(
+      flatMap((userId) => this.observeTrelloAuth(userId)),
+    ).subscribe((hasAuth) => {
+      this.zone.run(() => {
+        this.trelloUser = hasAuth;
+      });
+    });
+  }
+
+  linkTrelloClicked() {
+    this.afAuth.idToken.pipe(first()).subscribe((idToken) => {
+      location.href = `${environment.apiUrl}/trello/redirect?user_token=${idToken}`;
     });
   }
 
