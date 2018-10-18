@@ -8,8 +8,8 @@
 </ng-template>
 
 <ul *ngIf="overlays && overlays.length > 0; else noOverlays">
-  <li *ngFor="let overlay of overlays">
-    {{overlay.data.title}} ({{overlay.id}})
+  <li *ngFor="let overlay of overlays" class="overlay">
+    {{overlay.title}} ({{overlay.boards.join(",")}})
     <button (click)="deleteOverlayClicked(overlay.id)">delete</button>
   </li>
 </ul>

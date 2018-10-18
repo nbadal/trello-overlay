@@ -3,6 +3,7 @@ import {AuthService} from './auth.service';
 import {first, flatMap, map} from 'rxjs/operators';
 import {AngularFirestore, DocumentReference} from '@angular/fire/firestore';
 import {from, Observable} from 'rxjs';
+import {Overlay, overlayFrom} from './overlay';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,14 @@ export class OverlayService {
   constructor(private auth: AuthService, private afStore: AngularFirestore) {
   }
 
-  observeOverlays() {
+  observeOverlays(): Observable<Overlay[]> {
     return this.auth.observeUserId().pipe(
-      map((userId) => this.afStore.collection('overlays', (ref) => {
+      map((userId) => this.afStore.collection<Overlay>('overlays', (ref) => {
         return ref.where('user', '==', userId);
       })),
       flatMap((overlays) => overlays.snapshotChanges()),
       map((overlaysChange) => overlaysChange.map((change) => {
-        return {id: change.payload.doc.id, data: change.payload.doc.data() as any};
+        return overlayFrom(change.payload.doc);
       }))
     );
   }
@@ -26,10 +27,9 @@ export class OverlayService {
   addOverlay(): Observable<DocumentReference> {
     return this.auth.observeUserId().pipe(
       first(),
-      flatMap((userId) => this.afStore.collection('overlays').add({
-        user: userId,
-        title: 'New Overlay',
-      })),
+      flatMap((userId) => this.afStore.collection<Overlay>('overlays').add(
+        {user: userId, title: 'New Overlay', boards: ['test1', 'test2']}
+      )),
     );
   }
 

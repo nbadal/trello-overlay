@@ -1,6 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {OverlayService} from '../overlay.service';
+import {Overlay} from '../overlay';
 
 @Component({
   selector: 'app-config',
@@ -10,7 +11,7 @@ import {OverlayService} from '../overlay.service';
 export class ConfigComponent implements OnInit {
 
   public trelloUser: boolean;
-  public overlays: { id: string, data: any }[];
+  public overlays: Overlay[];
 
   constructor(private auth: AuthService, private overlayService: OverlayService,
               private zone: NgZone) {
