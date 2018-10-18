@@ -20,13 +20,14 @@ export class ConfigComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Get loggedIn's overlays:
+    // Get user's overlays:
     this.overlayService.observeOverlays().subscribe((overlays) => {
       this.zone.run(() => {
         this.overlays = overlays;
       });
     });
 
+    // Watch Trello link status:
     this.auth.observeTrelloLinked().subscribe((hasAuth) => {
       this.zone.run(() => {
         this.trelloUser = hasAuth;
