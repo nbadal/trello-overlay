@@ -24,11 +24,11 @@ export class OverlayService {
     );
   }
 
-  addOverlay(): Observable<DocumentReference> {
+  addOverlay(boards: string[]): Observable<DocumentReference> {
     return this.auth.observeUserId().pipe(
       first(),
       flatMap((userId) => this.afStore.collection<Overlay>('overlays').add(
-        {user: userId, title: 'New Overlay', boards: ['test1', 'test2']}
+        {user: userId, title: 'New Overlay', boards}
       )),
     );
   }

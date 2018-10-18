@@ -12,6 +12,7 @@ import {LoginComponent} from './login/login.component';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import { AuthComponent } from './auth/auth.component';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase, 'trello-twitch-overlay'),

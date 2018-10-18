@@ -18,6 +18,10 @@
   <p>NO OVERLAYS.</p>
 </ng-template>
 
-<button (click)="addOverlayClicked()">Create Overlay</button>
+<div>
+  <label for="overlayBoards">Boards: </label>
+  <input type="text" id="overlayBoards" [(ngModel)]="newOverlayBoards">
+  <button (click)="addOverlayClicked()">Create Overlay</button>
+</div>
 
 <button (click)="signOutClicked()">Sign Out</button>
