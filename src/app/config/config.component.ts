@@ -13,7 +13,7 @@ export class ConfigComponent implements OnInit {
   public trelloUser: boolean;
   public overlays: Overlay[];
 
-  public newOverlayBoards: string;
+  public newOverlayLists: string;
 
   constructor(private auth: AuthService, private overlayService: OverlayService,
               private zone: NgZone) {
@@ -21,7 +21,7 @@ export class ConfigComponent implements OnInit {
 
   ngOnInit() {
     // Get user's overlays:
-    this.overlayService.observeOverlays().subscribe((overlays) => {
+    this.overlayService.observeUserOverlays().subscribe((overlays) => {
       this.zone.run(() => {
         this.overlays = overlays;
       });
@@ -48,9 +48,9 @@ export class ConfigComponent implements OnInit {
   }
 
   addOverlayClicked() {
-    if (!this.newOverlayBoards || this.newOverlayBoards.length === 0) { return; }
+    if (!this.newOverlayLists || this.newOverlayLists.length === 0) { return; }
 
-    this.overlayService.addOverlay(this.newOverlayBoards.split(','))
-      .subscribe(() => this.newOverlayBoards = '');
+    this.overlayService.addUserOverlay(this.newOverlayLists.split(','))
+      .subscribe(() => this.newOverlayLists = '');
   }
 }

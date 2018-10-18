@@ -9,7 +9,7 @@
 
 <ul *ngIf="overlays && overlays.length > 0; else noOverlays">
   <li *ngFor="let overlay of overlays" class="overlay">
-    {{overlay.title}} ({{overlay.boards.join(",")}})
+    {{overlay.title}} ({{overlay.lists.join(",")}})
     <button (click)="deleteOverlayClicked(overlay.id)">delete</button>
   </li>
 </ul>
@@ -19,8 +19,8 @@
 </ng-template>
 
 <div>
-  <label for="overlayBoards">Boards: </label>
-  <input type="text" id="overlayBoards" [(ngModel)]="newOverlayBoards">
+  <label for="overlayLists">Lists: </label>
+  <input type="text" id="overlayLists" [(ngModel)]="newOverlayLists">
   <button (click)="addOverlayClicked()">Create Overlay</button>
 </div>
 

@@ -12,7 +12,7 @@ export class OverlayService {
   constructor(private auth: AuthService, private afStore: AngularFirestore) {
   }
 
-  observeOverlays(): Observable<Overlay[]> {
+  observeUserOverlays(): Observable<Overlay[]> {
     return this.auth.observeUserId().pipe(
       map((userId) => this.afStore.collection<Overlay>('overlays', (ref) => {
         return ref.where('user', '==', userId);
@@ -24,11 +24,11 @@ export class OverlayService {
     );
   }
 
-  addOverlay(boards: string[]): Observable<DocumentReference> {
+  addUserOverlay(lists: string[]): Observable<DocumentReference> {
     return this.auth.observeUserId().pipe(
       first(),
       flatMap((userId) => this.afStore.collection<Overlay>('overlays').add(
-        {user: userId, title: 'New Overlay', boards}
+        {user: userId, title: 'New Overlay', lists}
       )),
     );
   }

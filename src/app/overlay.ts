@@ -4,7 +4,7 @@ export interface Overlay {
   id?: string;
   user: string;
   title: string;
-  boards: string[];
+  lists: string[];
 }
 
 export function overlayFrom(doc: QueryDocumentSnapshot<Overlay>) {
