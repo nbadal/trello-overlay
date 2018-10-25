@@ -9,7 +9,9 @@
 
 <ul *ngIf="overlays && overlays.length > 0; else noOverlays">
   <li *ngFor="let overlay of overlays" class="overlay">
-    {{overlay.title}} ({{overlay.lists.join(",")}})
+    <a href="./overlay/{{overlay.id}}">
+      {{overlay.title}} ({{overlay.lists.join(",")}})
+    </a>
     <button (click)="deleteOverlayClicked(overlay.id)">delete</button>
   </li>
 </ul>
