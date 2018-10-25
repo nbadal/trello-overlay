@@ -1,5 +1,8 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {TrelloService} from '../trello.service';
+import {ActivatedRoute} from '@angular/router';
+import {OverlayService} from '../overlay.service';
+import {Subscription} from 'rxjs';
+import {flatMap, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-overlay',
@@ -9,22 +12,24 @@ import {TrelloService} from '../trello.service';
 export class OverlayComponent implements OnInit {
   public overlayAlign: 'left' | 'center' | 'right';
   public title: string;
-  public lists: [{'name': string, 'cards': [{name: string}]}];
+  public lists: [{ 'name': string, 'cards': [{ name: string }] }];
 
-  constructor(private ngZone: NgZone, private trelloService: TrelloService) {
+  private paramSub: Subscription;
+
+  constructor(private route: ActivatedRoute, private ngZone: NgZone,
+              private overlays: OverlayService) {
     this.overlayAlign = 'left';
     this.title = 'To-Do:';
   }
 
   ngOnInit() {
-    this.trelloService.getTodo().subscribe((lists) => {
-      // Change card data in the angular zone.
-      this.ngZone.run(() => {
-        this.lists = lists;
+    this.paramSub = this.route.params
+      .pipe(
+        map((params) => params.id),
+        flatMap((overlayId) => this.overlays.getOverlay(overlayId))
+      )
+      .subscribe((params) => {
+        this.lists = params as [{ 'name': string, 'cards': [{ name: string }] }];
       });
-    }, (err) => {
-      console.log({error: err});
-    });
   }
-
 }

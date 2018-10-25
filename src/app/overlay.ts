@@ -4,6 +4,7 @@ export interface Overlay {
   id?: string;
   user: string;
   title: string;
+  board: string;
   lists: string[];
 }
 

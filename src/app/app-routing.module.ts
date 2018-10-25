@@ -5,7 +5,7 @@ import {MainComponent} from './main/main.component';
 import {AuthComponent} from './auth/auth.component';
 
 const routes: Routes = [
-  {path: 'overlay', component: OverlayComponent},
+  {path: 'overlay/:id', component: OverlayComponent},
   {path: 'auth/:token', component: AuthComponent},
   {path: '', component: MainComponent},
 ];
