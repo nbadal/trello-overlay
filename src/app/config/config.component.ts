@@ -13,6 +13,7 @@ export class ConfigComponent implements OnInit {
   public trelloUser: boolean;
   public overlays: Overlay[];
 
+  public newOverlayBoard: string;
   public newOverlayLists: string;
 
   constructor(private auth: AuthService, private overlayService: OverlayService,
@@ -50,7 +51,12 @@ export class ConfigComponent implements OnInit {
   addOverlayClicked() {
     if (!this.newOverlayLists || this.newOverlayLists.length === 0) { return; }
 
-    this.overlayService.addUserOverlay(this.newOverlayLists.split(','))
-      .subscribe(() => this.newOverlayLists = '');
+    const board = this.newOverlayBoard;
+    const lists = this.newOverlayLists.split(',');
+    this.overlayService.addUserOverlay(board, lists)
+      .subscribe(() => {
+        this.newOverlayBoard = '';
+        this.newOverlayLists = '';
+      });
   }
 }

@@ -19,6 +19,8 @@
 </ng-template>
 
 <div>
+  <label for="overlayBoard">Board: </label>
+  <input type="text" id="overlayBoard" [(ngModel)]="newOverlayBoard">
   <label for="overlayLists">Lists: </label>
   <input type="text" id="overlayLists" [(ngModel)]="newOverlayLists">
   <button (click)="addOverlayClicked()">Create Overlay</button>
