@@ -11,25 +11,31 @@ import {flatMap, map} from 'rxjs/operators';
 })
 export class OverlayComponent implements OnInit {
   public overlayAlign: 'left' | 'center' | 'right';
-  public title: string;
-  public lists: [{ 'name': string, 'cards': [{ name: string }] }];
+  public data: OverlayData;
 
   private paramSub: Subscription;
 
   constructor(private route: ActivatedRoute, private ngZone: NgZone,
               private overlays: OverlayService) {
     this.overlayAlign = 'left';
-    this.title = 'To-Do:';
   }
 
   ngOnInit() {
     this.paramSub = this.route.params
       .pipe(
         map((params) => params.id),
-        flatMap((overlayId) => this.overlays.getOverlay(overlayId))
+        flatMap((overlayId) => this.overlays.getOverlay(overlayId)),
+        map((result) => result as OverlayData)
       )
-      .subscribe((params) => {
-        this.lists = params as [{ 'name': string, 'cards': [{ name: string }] }];
+      .subscribe((data) => {
+        this.ngZone.run(() => {
+          this.data = data;
+        });
       });
   }
+}
+
+interface OverlayData {
+  title: string;
+  lists: [{ 'name': string, 'cards': [{ name: string }] }];
 }

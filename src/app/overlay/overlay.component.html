@@ -1,12 +1,12 @@
-<div id="overlay" *ngIf="lists" [ngStyle]="{'text-align': overlayAlign}">
+<div id="overlay" *ngIf="data" [ngStyle]="{'text-align': overlayAlign}">
   <div id="background" [ngClass]="{
   'leftPos': overlayAlign === 'left',
   'centerPos': overlayAlign === 'center',
   'rightPos': overlayAlign === 'right'
   }"></div>
-  <h1 *ngIf="title" id="title">{{title}}</h1>
+  <h1 *ngIf="data.title" id="title">{{data.title}}</h1>
   <div id="content">
-    <ul *ngFor="let list of lists" class="list">
+    <ul *ngFor="let list of data.lists" class="list">
       <li *ngFor="let card of list.cards">
         <span class="card {{list.name}}">{{ card.name }}</span>
       </li>
